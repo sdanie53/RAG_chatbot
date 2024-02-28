@@ -8,6 +8,6 @@ This chatbot leverages the Retrieval-Augmented Generation (RAG) model, integrati
 - PDF and Text File Support: Can process and understand information from both PDF and text documents, expanding its knowledge base.
 
 ## Installations 
-- You can use the requirement.txt file to create your environment and install dependencies 
+- You can use the requirements.txt file to create your environment and install dependencies 
 
 

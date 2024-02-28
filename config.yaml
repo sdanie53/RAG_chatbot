@@ -1,0 +1,19 @@
+---
+data_dir: ./data
+introduction: Hello, My name is Aria! How can I help you today?
+# OpenAI
+openai:
+  embeddings_model: text-embedding-ada-002
+  chat_model: gpt-3.5-turbo
+  temperature: 0.5
+  max_tokens: 3000
+# Pinecone
+pc:
+  index_name: rag-chatbot
+  dimension: 1536
+  metric: cosine
+  spec:
+    cloud: aws
+    region: us-west-2
+  host: 
+system_message: Answer the question to the best of your ability. If you don't know the answer, you can say "I don't know" or "I'm not sure". 
