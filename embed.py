@@ -93,6 +93,7 @@ if __name__ == "__main__":
 
     text = load_files(config["data_dir"])
     embeddings = create_embeddings(model, text)
+    metadata = {"id": [str(i) for i in range(len(embeddings))]}
     # print(f"Embedding {len(documents)} documents, this may take a while...")
 
     index = initialize_index(config["pc"]["index_name"], config)

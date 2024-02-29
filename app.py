@@ -47,7 +47,7 @@ def conversation_chain(config: dict, index: Pinecone, embed_model: OpenAIEmbeddi
         callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
         memory = memory_setup()
         vectordb = init_pinecone(index, embed_model)
-        retriever = vectordb.as_retriever(search_type="mmr", search_kwargs={"k": 5})
+        #retriever = vectordb.as_retriever(search_type="mmr", search_kwargs={"k": 5})
         model = ChatOpenAI(
             callback_manager=callback_manager,
             api_key=OPENAI_API_KEY,
@@ -104,26 +104,16 @@ def conversation_chain(config: dict, index: Pinecone, embed_model: OpenAIEmbeddi
         
 if __name__ == "__main__":
     config = load_config()
-    model_name = config["openai"]["embeddings_model"]
     embed_model = OpenAIEmbeddings(
-        model=model_name,
+        model=config["openai"]["embeddings_model"],
         openai_api_key=OPENAI_API_KEY
     )
-
-    text = load_files(config["data_dir"])
-    embeddings = create_embeddings(embed_model, text)
-    # print(f"Embedding {len(documents)} documents, this may take a while...")
-
     index = initialize_index(config["pc"]["index_name"], config, PINECONE_API_KEY)
-    # wait a moment for the index to be fully initialized
-    time.sleep(1)
-    index.upsert(vectors=embeddings, ids=[str(i) for i in range(len(embeddings))])
-
     chain = conversation_chain(config, index, embed_model)
-    
+
     while True:
         user_input = input("You: ")
         if user_input.lower() == "exit":
             break
         res = chain.invoke(user_input)
-        print(f"Bot: {res}")
+        print(f"Bot: {res['answer']}")
